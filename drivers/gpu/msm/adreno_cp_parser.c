@@ -1,4 +1,5 @@
 /* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -670,6 +671,11 @@ static int ib_parse_type7_set_draw_state(struct kgsl_device *device,
 	 * loop counter by 3 always
 	 */
 	for (i = 1; i <= size; i += 3) {
+		if (i + 2 > size) {
+			ret = -EINVAL;
+			break;
+		}
+
 		grp_id = (ptr[i] & 0x1F000000) >> 24;
 		/* take action based on flags */
 		flags = (ptr[i] & 0x000F0000) >> 16;
